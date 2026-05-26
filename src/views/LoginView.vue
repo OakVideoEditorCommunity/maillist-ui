@@ -44,6 +44,7 @@ import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { authApi } from '../api/auth'
+import { applyUserLocale } from '../i18n'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -65,6 +66,10 @@ const handleLogin = async () => {
     const res = await authApi.login(form)
     localStorage.setItem('access_token', res.access_token)
     localStorage.setItem('refresh_token', res.refresh_token)
+    // Apply user language preference from backend
+    if (res.user?.language) {
+      applyUserLocale(res.user.language)
+    }
     ElMessage.success(t('auth.loginSuccess'))
     router.push('/')
   } catch (e) {

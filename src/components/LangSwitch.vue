@@ -17,6 +17,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { setLocale } from '../i18n'
+import { userApi } from '../api/index'
 
 const { locale } = useI18n()
 
@@ -24,7 +25,16 @@ const currentLabel = computed(() => {
   return locale.value === 'zh' ? '中文' : 'English'
 })
 
-const handleCommand = (cmd) => {
+const handleCommand = async (cmd) => {
   setLocale(cmd)
+  // If logged in, persist to backend
+  const token = localStorage.getItem('access_token')
+  if (token) {
+    try {
+      await userApi.updateMe({ language: cmd })
+    } catch (e) {
+      // silently fail
+    }
+  }
 }
 </script>

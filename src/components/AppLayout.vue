@@ -75,6 +75,7 @@ import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { userApi } from '../api/index'
 import LangSwitch from './LangSwitch.vue'
+import { applyUserLocale } from '../i18n'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -84,6 +85,10 @@ onMounted(async () => {
   try {
     const res = await userApi.me()
     user.value = res.data
+    // Sync language from user profile
+    if (res.data.language) {
+      applyUserLocale(res.data.language)
+    }
   } catch (e) {
     console.error(e)
   }
