@@ -1,6 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { setupApi } from '../api/setup'
+
+let setupChecked = false
+let needsSetup = false
 
 const routes = [
+  {
+    path: '/setup',
+    name: 'Setup',
+    component: () => import('../views/SetupView.vue'),
+    meta: { public: true },
+  },
   {
     path: '/login',
     name: 'Login',
@@ -36,13 +46,35 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  // Check setup status on first navigation
+  if (!setupChecked) {
+    try {
+      const res = await setupApi.status()
+      needsSetup = res.data?.needs_setup ?? false
+    } catch {
+      needsSetup = false
+    }
+    setupChecked = true
+  }
+
+  // If setup is needed, force to setup page
+  if (needsSetup && to.path !== '/setup') {
+    return next('/setup')
+  }
+
+  // If setup is done, block access to setup page
+  if (!needsSetup && to.path === '/setup') {
+    return next('/login')
+  }
+
+  // Existing auth guard
   const token = localStorage.getItem('access_token')
   if (!to.meta.public && !token) {
-    next('/login')
-  } else {
-    next()
+    return next('/login')
   }
+
+  next()
 })
 
 export default router
