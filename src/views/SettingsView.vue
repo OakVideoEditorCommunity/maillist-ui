@@ -2,7 +2,7 @@
   <div>
     <h2>{{ $t('settings.title') }}</h2>
     <el-card style="margin-top: 20px; max-width: 600px;">
-      <el-form :model="settings" label-width="140px">
+      <el-form :model="settings" label-width="160px">
         <h4>{{ $t('settings.server') }}</h4>
         <el-form-item :label="$t('settings.host')">
           <el-input v-model="settings.server.host" disabled />
@@ -26,6 +26,18 @@
         <el-form-item :label="$t('settings.aiProvider')">
           <el-input v-model="settings.ai_moderation.provider" />
         </el-form-item>
+        <el-form-item :label="$t('settings.aiAccessKeyId')">
+          <el-input v-model="settings.ai_moderation.access_key_id" />
+        </el-form-item>
+        <el-form-item :label="$t('settings.aiAccessKeySecret')">
+          <el-input v-model="settings.ai_moderation.access_key_secret" type="password" show-password />
+        </el-form-item>
+        <el-form-item :label="$t('settings.aiRegion')">
+          <el-input v-model="settings.ai_moderation.region" />
+        </el-form-item>
+        <el-form-item :label="$t('settings.aiEndpoint')">
+          <el-input v-model="settings.ai_moderation.endpoint" />
+        </el-form-item>
 
         <el-form-item>
           <el-button type="primary" @click="handleSave">{{ $t('app.save') }}</el-button>
@@ -45,7 +57,7 @@ const { t } = useI18n()
 const settings = ref({
   server: { host: '', port: 0 },
   smtp: { incoming_enabled: false, outgoing_host: '' },
-  ai_moderation: { enabled: false, provider: '' },
+  ai_moderation: { enabled: false, provider: '', access_key_id: '', access_key_secret: '', region: '', endpoint: '' },
 })
 
 onMounted(async () => {

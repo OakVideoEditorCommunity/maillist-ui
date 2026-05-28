@@ -180,6 +180,10 @@
     "aiModeration": "AI 审核",
     "aiEnabled": "启用",
     "aiProvider": "提供商",
+    "aiAccessKeyId": "Access Key ID",
+    "aiAccessKeySecret": "Access Key Secret",
+    "aiRegion": "地域",
+    "aiEndpoint": "Endpoint URL",
     "saveSuccess": "保存成功"
   },
   "cookie": {
