@@ -17,7 +17,9 @@
     "status": "Status",
     "yes": "Yes",
     "no": "No",
-    "optional": "Optional"
+    "optional": "Optional",
+    "copy": "Copy",
+    "copied": "Copied to clipboard"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -94,7 +96,23 @@
     "deleteConfirm": "Delete this domain?",
     "addSuccess": "Domain added",
     "deleteSuccess": "Domain deleted",
-    "verifyTriggered": "DKIM verification triggered"
+    "verifyTriggered": "DKIM verification triggered",
+    "dnsConfig": "DNS Config",
+    "dnsStatus": "DNS Status",
+    "verified": "Verified",
+    "pending": "Pending",
+    "dnsConfigHint": "Add the following DNS TXT records to your domain registrar to improve email deliverability.",
+    "spfRecord": "SPF Record",
+    "dkimRecord": "DKIM Record",
+    "dmarcRecord": "DMARC Record",
+    "addTxtRecord": "Add a TXT record for",
+    "loading": "Loading...",
+    "generateDkim": "Generate DKIM Key",
+    "dkimGenerated": "DKIM key generated",
+    "smtpTest": "SMTP Test",
+    "sendTestEmail": "Send Test Email",
+    "verifyDns": "Verify DNS",
+    "verificationComplete": "DNS verification complete"
   },
   "moderation": {
     "title": "Content Moderation",

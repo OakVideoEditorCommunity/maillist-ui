@@ -62,9 +62,9 @@ onMounted(async () => {
     const res = await listApi.get(id)
     list.value = res.data
     const s = await listApi.listSubscribers(id)
-    subscribers.value = s.data
+    subscribers.value = s.data.items
     const m = await listApi.listMessages(id)
-    messages.value = m.data
+    messages.value = m.data.items
   } catch (e) {
     ElMessage.error(e.message)
   } finally {

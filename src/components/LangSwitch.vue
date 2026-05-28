@@ -1,7 +1,7 @@
 <template>
   <el-dropdown @command="handleCommand" size="small">
     <el-button link>
-      <el-icon><Globe /></el-icon>
+      <el-icon><Switch /></el-icon>
       <span style="margin-left: 4px;">{{ currentLabel }}</span>
     </el-button>
     <template #dropdown>

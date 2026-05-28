@@ -46,7 +46,7 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to, from) => {
   // Check setup status on first navigation
   if (!setupChecked) {
     try {
@@ -60,21 +60,21 @@ router.beforeEach(async (to, from, next) => {
 
   // If setup is needed, force to setup page
   if (needsSetup && to.path !== '/setup') {
-    return next('/setup')
+    return { path: '/setup' }
   }
 
   // If setup is done, block access to setup page
   if (!needsSetup && to.path === '/setup') {
-    return next('/login')
+    return { path: '/login' }
   }
 
   // Existing auth guard
   const token = localStorage.getItem('access_token')
   if (!to.meta.public && !token) {
-    return next('/login')
+    return { path: '/login' }
   }
 
-  next()
+  return true
 })
 
 export default router

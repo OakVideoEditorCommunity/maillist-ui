@@ -41,6 +41,10 @@ export const domainApi = {
   update: (id, data) => request.put(`/domains/${id}`, data),
   delete: (id) => request.delete(`/domains/${id}`),
   verifyDkim: (id) => request.post(`/domains/${id}/verify-dkim`),
+  generateDkim: (id) => request.post(`/domains/${id}/generate-dkim`),
+  getDnsRecords: (id) => request.get(`/domains/${id}/dns-records`),
+  verifyDns: (id) => request.post(`/domains/${id}/verify-dns`),
+  testSmtp: (id) => request.post(`/domains/${id}/test-smtp`),
 }
 
 export const moderationApi = {

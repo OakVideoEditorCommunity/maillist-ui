@@ -77,7 +77,7 @@ const fetch = async () => {
   loading.value = true
   try {
     const res = await listApi.list()
-    lists.value = res.data
+    lists.value = res.data.items
     const d = await domainApi.list()
     domains.value = d.data
   } catch (e) {

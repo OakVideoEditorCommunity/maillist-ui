@@ -17,7 +17,9 @@
     "status": "状态",
     "yes": "是",
     "no": "否",
-    "optional": "可选"
+    "optional": "可选",
+    "copy": "复制",
+    "copied": "已复制到剪贴板"
   },
   "nav": {
     "dashboard": "概览",
@@ -94,7 +96,23 @@
     "deleteConfirm": "确认删除该域名？",
     "addSuccess": "添加成功",
     "deleteSuccess": "删除成功",
-    "verifyTriggered": "DKIM 验证已触发"
+    "verifyTriggered": "DKIM 验证已触发",
+    "dnsConfig": "DNS 配置",
+    "dnsStatus": "DNS 状态",
+    "verified": "已验证",
+    "pending": "待配置",
+    "dnsConfigHint": "在域名注册商处添加以下 DNS TXT 记录，以提升邮件送达率。",
+    "spfRecord": "SPF 记录",
+    "dkimRecord": "DKIM 记录",
+    "dmarcRecord": "DMARC 记录",
+    "addTxtRecord": "添加 TXT 记录",
+    "loading": "加载中...",
+    "generateDkim": "生成 DKIM 密钥",
+    "dkimGenerated": "DKIM 密钥已生成",
+    "smtpTest": "SMTP 测试",
+    "sendTestEmail": "发送测试邮件",
+    "verifyDns": "验证 DNS",
+    "verificationComplete": "DNS 验证完成"
   },
   "moderation": {
     "title": "内容审核",
