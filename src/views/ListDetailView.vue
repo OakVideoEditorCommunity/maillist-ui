@@ -1,6 +1,6 @@
 <template>
   <div v-loading="loading">
-    <el-page-header @back="$router.push('/lists')" :title="list?.name || $t('lists.title')" />
+    <el-page-header @back="$router.push('/lists')" :title="list?.display_name || list?.name || $t('lists.title')" />
 
     <el-tabs v-model="activeTab" style="margin-top: 20px;">
       <el-tab-pane :label="$t('lists.info')" name="info">

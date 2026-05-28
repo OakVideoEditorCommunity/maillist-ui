@@ -80,6 +80,7 @@
     "domain": "Domain",
     "description": "Description",
     "selectDomain": "Select Domain",
+    "displayName": "Display Name",
     "info": "Info",
     "subscribers": "Subscribers",
     "messages": "Messages",

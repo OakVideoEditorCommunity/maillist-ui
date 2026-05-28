@@ -80,6 +80,7 @@
     "domain": "域名",
     "description": "描述",
     "selectDomain": "选择域名",
+    "displayName": "显示名称",
     "info": "基本信息",
     "subscribers": "订阅者",
     "messages": "邮件",

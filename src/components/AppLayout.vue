@@ -1,13 +1,16 @@
 <template>
   <el-container class="layout">
     <el-aside width="220px" class="sidebar">
-      <div class="logo">{{ $t('app.name') }}</div>
+      <div class="logo">
+        <img v-if="branding.logo_url" :src="branding.logo_url" class="logo-img" />
+        <span v-else>{{ branding.site_name || $t('app.name') }}</span>
+      </div>
       <el-menu
         :default-active="$route.path"
         router
         background-color="#304156"
         text-color="#bfcbd9"
-        active-text-color="#409EFF"
+        :active-text-color="branding.primary_color || '#409EFF'"
         class="menu"
       >
         <el-menu-item index="/dashboard">
@@ -69,25 +72,37 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, provide } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
-import { userApi } from '../api/index'
+import { userApi, configApi } from '../api/index'
 import LangSwitch from './LangSwitch.vue'
 import { applyUserLocale } from '../i18n'
 
 const router = useRouter()
 const { t } = useI18n()
 const user = ref(null)
+const branding = ref({ site_name: '', primary_color: '', logo_url: '' })
+
+provide('branding', branding)
 
 onMounted(async () => {
   try {
     const res = await userApi.me()
     user.value = res.data
-    // Sync language from user profile
     if (res.data.language) {
       applyUserLocale(res.data.language)
+    }
+  } catch (e) {
+    console.error(e)
+  }
+
+  try {
+    const res = await configApi.public()
+    branding.value = res.data
+    if (res.data.site_name) {
+      document.title = res.data.site_name
     }
   } catch (e) {
     console.error(e)
@@ -123,6 +138,15 @@ const handleCommand = (cmd) => {
   font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #1f2d3d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 12px;
+}
+.logo-img {
+  max-height: 40px;
+  max-width: 180px;
 }
 .menu {
   border-right: none;

@@ -2,7 +2,7 @@
   <div class="login-page">
     <el-card class="login-card" shadow="always">
       <template #header>
-        <div class="card-header">{{ $t('auth.loginTitle') }}</div>
+        <div class="card-header">{{ branding.site_name || $t('auth.loginTitle') }}</div>
       </template>
 
       <el-tabs v-model="activeTab">
@@ -39,11 +39,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { authApi } from '../api/auth'
+import { configApi } from '../api/index'
 import { applyUserLocale } from '../i18n'
 
 const router = useRouter()
@@ -52,6 +53,16 @@ const formRef = ref()
 const loading = ref(false)
 const passkeyLoading = ref(false)
 const activeTab = ref('password')
+const branding = ref({ site_name: '' })
+
+onMounted(async () => {
+  try {
+    const res = await configApi.public()
+    branding.value = res.data
+  } catch (e) {
+    console.error(e)
+  }
+})
 
 const form = reactive({ email: '', password: '' })
 const rules = {

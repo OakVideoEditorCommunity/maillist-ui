@@ -6,7 +6,11 @@
     </div>
 
     <el-table :data="lists" style="margin-top: 20px;" v-loading="loading">
-      <el-table-column prop="name" :label="$t('lists.name')" />
+      <el-table-column :label="$t('lists.name')">
+        <template #default="{ row }">
+          {{ row.display_name || row.name }}
+        </template>
+      </el-table-column>
       <el-table-column prop="email_local_part" :label="$t('lists.emailPrefix')" />
       <el-table-column prop="visibility" :label="$t('lists.visibility')" />
       <el-table-column prop="post_policy" :label="$t('lists.postPolicy')" />
@@ -32,6 +36,9 @@
         </el-form-item>
         <el-form-item :label="$t('lists.name')">
           <el-input v-model="form.name" />
+        </el-form-item>
+        <el-form-item :label="$t('lists.displayName')">
+          <el-input v-model="form.display_name" />
         </el-form-item>
         <el-form-item :label="$t('lists.emailPrefix')">
           <el-input v-model="form.email_local_part" />
@@ -71,7 +78,7 @@ const lists = ref([])
 const domains = ref([])
 const loading = ref(false)
 const dialogVisible = ref(false)
-const form = ref({ domain_id: '', name: '', email_local_part: '', description: '', visibility: 'public', post_policy: 'subscriber_only' })
+const form = ref({ domain_id: '', name: '', display_name: '', email_local_part: '', description: '', visibility: 'public', post_policy: 'subscriber_only' })
 
 const fetch = async () => {
   loading.value = true

@@ -2,7 +2,7 @@
   <div class="register-page">
     <el-card class="register-card" shadow="always">
       <template #header>
-        <div class="card-header">{{ $t('auth.registerTitle') }}</div>
+        <div class="card-header">{{ branding.site_name || $t('auth.registerTitle') }}</div>
       </template>
 
       <el-form :model="form" :rules="rules" ref="formRef" @keyup.enter="handleRegister">
@@ -28,16 +28,27 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { authApi } from '../api/auth'
+import { configApi } from '../api/index'
 
 const router = useRouter()
 const { t } = useI18n()
 const formRef = ref()
 const loading = ref(false)
+const branding = ref({ site_name: '' })
+
+onMounted(async () => {
+  try {
+    const res = await configApi.public()
+    branding.value = res.data
+  } catch (e) {
+    console.error(e)
+  }
+})
 
 const form = reactive({ email: '', password: '', name: '' })
 const rules = {

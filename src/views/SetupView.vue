@@ -6,7 +6,7 @@
 
       <el-steps :active="step - 1" finish-status="success" simple>
         <el-step title="Database" />
-        <el-step title="Server & SMTP" />
+        <el-step title="Server, SMTP & Branding" />
         <el-step title="Admin" />
       </el-steps>
 
@@ -87,6 +87,18 @@
           <el-input v-model="form.server.smtpFrom" placeholder="noreply@example.com" />
         </el-form-item>
 
+        <el-divider>Branding</el-divider>
+
+        <el-form-item label="Site Name">
+          <el-input v-model="form.server.siteName" placeholder="Oak MailList" />
+        </el-form-item>
+        <el-form-item label="Primary Color">
+          <el-color-picker v-model="form.server.primaryColor" />
+        </el-form-item>
+        <el-form-item label="Logo URL">
+          <el-input v-model="form.server.logoUrl" placeholder="https://example.com/logo.png" />
+        </el-form-item>
+
         <div class="form-actions">
           <el-button @click="step = 1">Back</el-button>
           <el-button type="primary" @click="handleServerNext">Continue</el-button>
@@ -155,6 +167,9 @@ const form = reactive({
     smtpUser: '',
     smtpPassword: '',
     smtpFrom: 'noreply@example.com',
+    siteName: 'Oak MailList',
+    primaryColor: '#409EFF',
+    logoUrl: '',
   },
   admin: {
     email: '',
@@ -248,6 +263,9 @@ const handleSubmit = async () => {
       smtp_user: form.server.smtpUser || undefined,
       smtp_password: form.server.smtpPassword || undefined,
       smtp_from: form.server.smtpFrom || undefined,
+      site_name: form.server.siteName || undefined,
+      primary_color: form.server.primaryColor || undefined,
+      logo_url: form.server.logoUrl || undefined,
       email: form.admin.email,
       password: form.admin.password,
       name: form.admin.name,

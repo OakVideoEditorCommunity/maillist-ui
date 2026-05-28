@@ -64,6 +64,10 @@ export const templateApi = {
   preview: (name, data) => request.post(`/templates/${name}/preview`, data),
 }
 
+export const configApi = {
+  public: () => request.get('/config'),
+}
+
 export const adminApi = {
   dashboard: () => request.get('/admin/dashboard'),
   stats: () => request.get('/admin/stats'),
