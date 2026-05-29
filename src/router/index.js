@@ -6,6 +6,18 @@ let needsSetup = false
 
 const routes = [
   {
+    path: '/',
+    name: 'Home',
+    component: () => import('../views/HomeView.vue'),
+    meta: { public: true },
+  },
+  {
+    path: '/lists/:id',
+    name: 'PublicListDetail',
+    component: () => import('../views/PublicListDetailView.vue'),
+    meta: { public: true },
+  },
+  {
     path: '/setup',
     name: 'Setup',
     component: () => import('../views/SetupView.vue'),
@@ -24,9 +36,9 @@ const routes = [
     meta: { public: true },
   },
   {
-    path: '/',
+    path: '/console',
     component: () => import('../components/AppLayout.vue'),
-    redirect: '/dashboard',
+    redirect: '/console/dashboard',
     children: [
       { path: 'dashboard', name: 'Dashboard', component: () => import('../views/DashboardView.vue') },
       { path: 'lists', name: 'Lists', component: () => import('../views/ListsView.vue') },
@@ -68,9 +80,18 @@ router.beforeEach(async (to, from) => {
     return { path: '/login' }
   }
 
-  // Existing auth guard
+  // Auth guard: public routes are always allowed
   const token = localStorage.getItem('access_token')
-  if (!to.meta.public && !token) {
+  if (to.meta.public) {
+    // If logged-in user visits login/register, redirect to console
+    if (token && (to.path === '/login' || to.path === '/register')) {
+      return { path: '/console/dashboard' }
+    }
+    return true
+  }
+
+  // Protected routes require token
+  if (!token) {
     return { path: '/login' }
   }
 

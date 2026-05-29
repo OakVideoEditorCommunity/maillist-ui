@@ -31,7 +31,9 @@
     "settings": "系统设置",
     "profile": "个人资料",
     "logout": "退出登录",
-    "mfa": "多因素认证"
+    "mfa": "多因素认证",
+    "console": "管理控制台",
+    "home": "公开站点"
   },
   "auth": {
     "login": "登录",
@@ -185,6 +187,11 @@
     "aiRegion": "地域",
     "aiEndpoint": "Endpoint URL",
     "saveSuccess": "保存成功"
+  },
+  "home": {
+    "title": "公开邮件列表",
+    "browseLists": "浏览邮件列表",
+    "noPublicLists": "暂无公开邮件列表"
   },
   "cookie": {
     "title": "Cookie 声明",

@@ -31,7 +31,9 @@
     "settings": "Settings",
     "profile": "Profile",
     "logout": "Logout",
-    "mfa": "Multi-Factor Auth"
+    "mfa": "Multi-Factor Auth",
+    "console": "Admin Console",
+    "home": "Public Site"
   },
   "auth": {
     "login": "Login",
@@ -185,6 +187,11 @@
     "aiRegion": "Region",
     "aiEndpoint": "Endpoint URL",
     "saveSuccess": "Settings saved"
+  },
+  "home": {
+    "title": "Public Mailing Lists",
+    "browseLists": "Browse Mailing Lists",
+    "noPublicLists": "No public mailing lists available"
   },
   "cookie": {
     "title": "Cookie Consent",

@@ -1,7 +1,7 @@
 <template>
   <el-container class="layout">
     <el-aside width="220px" class="sidebar">
-      <div class="logo">
+      <div class="logo" @click="$router.push('/')">
         <img v-if="branding.logo_url" :src="branding.logo_url" class="logo-img" />
         <span v-else>{{ branding.site_name || $t('app.name') }}</span>
       </div>
@@ -13,31 +13,31 @@
         :active-text-color="branding.primary_color || '#409EFF'"
         class="menu"
       >
-        <el-menu-item index="/dashboard">
+        <el-menu-item index="/console/dashboard">
           <el-icon><DataLine /></el-icon>
           <span>{{ $t('nav.dashboard') }}</span>
         </el-menu-item>
-        <el-menu-item index="/lists">
+        <el-menu-item index="/console/lists">
           <el-icon><Message /></el-icon>
           <span>{{ $t('nav.lists') }}</span>
         </el-menu-item>
-        <el-menu-item index="/domains">
+        <el-menu-item index="/console/domains">
           <el-icon><Link /></el-icon>
           <span>{{ $t('nav.domains') }}</span>
         </el-menu-item>
-        <el-menu-item index="/moderation">
+        <el-menu-item index="/console/moderation">
           <el-icon><Warning /></el-icon>
           <span>{{ $t('nav.moderation') }}</span>
         </el-menu-item>
-        <el-menu-item index="/templates">
+        <el-menu-item index="/console/templates">
           <el-icon><Document /></el-icon>
           <span>{{ $t('nav.templates') }}</span>
         </el-menu-item>
-        <el-menu-item index="/users">
+        <el-menu-item index="/console/users">
           <el-icon><User /></el-icon>
           <span>{{ $t('nav.users') }}</span>
         </el-menu-item>
-        <el-menu-item index="/settings">
+        <el-menu-item index="/console/settings">
           <el-icon><Setting /></el-icon>
           <span>{{ $t('nav.settings') }}</span>
         </el-menu-item>
@@ -55,6 +55,7 @@
             </span>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item command="home">{{ $t('nav.home') }}</el-dropdown-item>
                 <el-dropdown-item command="profile">{{ $t('nav.profile') }}</el-dropdown-item>
                 <el-dropdown-item command="mfa">{{ $t('nav.mfa') }}</el-dropdown-item>
                 <el-dropdown-item divided command="logout">{{ $t('nav.logout') }}</el-dropdown-item>
@@ -102,9 +103,6 @@ onMounted(async () => {
     const res = await configApi.public()
     const data = res.data || res
     branding.value = data
-    if (data.site_name) {
-      document.title = data.site_name
-    }
   } catch (e) {
     console.error(e)
   }
@@ -117,9 +115,11 @@ const handleCommand = (cmd) => {
     ElMessage.success(t('auth.logoutSuccess'))
     router.push('/login')
   } else if (cmd === 'profile') {
-    router.push('/profile')
+    router.push('/console/profile')
   } else if (cmd === 'mfa') {
-    router.push('/profile?tab=mfa')
+    router.push('/console/profile?tab=mfa')
+  } else if (cmd === 'home') {
+    router.push('/')
   }
 }
 </script>
@@ -144,6 +144,7 @@ const handleCommand = (cmd) => {
   justify-content: center;
   gap: 8px;
   padding: 0 12px;
+  cursor: pointer;
 }
 .logo-img {
   max-height: 40px;

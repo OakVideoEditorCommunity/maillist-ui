@@ -4,7 +4,21 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import CookieConsent from './components/CookieConsent.vue'
+import { configApi } from './api/index'
+
+onMounted(async () => {
+  try {
+    const res = await configApi.public()
+    const data = res.data || res
+    if (data.site_name) {
+      document.title = data.site_name
+    }
+  } catch (e) {
+    console.error(e)
+  }
+})
 </script>
 
 <style>

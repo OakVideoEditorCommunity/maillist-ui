@@ -82,7 +82,7 @@ const handleLogin = async () => {
       applyUserLocale(res.user.language)
     }
     ElMessage.success(t('auth.loginSuccess'))
-    router.push('/')
+    router.push('/console/dashboard')
   } catch (e) {
     if (e.response?.data?.code === 'MFA_REQUIRED') {
       ElMessage.warning('MFA required')

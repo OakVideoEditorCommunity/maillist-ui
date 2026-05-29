@@ -21,7 +21,7 @@
       </el-table-column>
       <el-table-column :label="$t('app.actions')" width="200">
         <template #default="{ row }">
-          <el-button link type="primary" @click="$router.push(`/lists/${row.id}`)">{{ $t('app.detail') }}</el-button>
+          <el-button link type="primary" @click="$router.push(`/console/lists/${row.id}`)">{{ $t('app.detail') }}</el-button>
           <el-button link type="danger" @click="handleDelete(row.id)">{{ $t('app.delete') }}</el-button>
         </template>
       </el-table-column>
