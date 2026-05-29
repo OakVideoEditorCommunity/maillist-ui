@@ -15,6 +15,19 @@
     <div class="home-content">
       <h1 class="home-title">{{ $t('home.browseLists') }}</h1>
 
+      <el-alert
+        type="info"
+        :closable="false"
+        style="margin-bottom: 24px;"
+      >
+        <template #title>
+          <div style="line-height: 1.8;">
+            <p><strong>{{ $t('home.subscribeHint', { email: 'list-address@example.com' }) }}</strong></p>
+            <p><strong>{{ $t('home.unsubscribeHint', { email: 'list-address@example.com' }) }}</strong></p>
+          </div>
+        </template>
+      </el-alert>
+
       <el-empty v-if="!loading && lists.length === 0" :description="$t('home.noPublicLists')" />
 
       <el-row :gutter="20" v-loading="loading">

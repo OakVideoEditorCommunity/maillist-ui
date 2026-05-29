@@ -191,7 +191,9 @@
   "home": {
     "title": "Public Mailing Lists",
     "browseLists": "Browse Mailing Lists",
-    "noPublicLists": "No public mailing lists available"
+    "noPublicLists": "No public mailing lists available",
+    "subscribeHint": "To subscribe, send an email to {email} with subject 'subscribe'.",
+    "unsubscribeHint": "To unsubscribe, send an email to {email} with subject 'unsubscribe'."
   },
   "cookie": {
     "title": "Cookie Consent",
