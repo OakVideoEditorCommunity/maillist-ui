@@ -44,7 +44,7 @@ const branding = ref({ site_name: '' })
 onMounted(async () => {
   try {
     const res = await configApi.public()
-    branding.value = res.data
+    branding.value = res.data || res
   } catch (e) {
     console.error(e)
   }

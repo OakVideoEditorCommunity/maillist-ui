@@ -100,9 +100,10 @@ onMounted(async () => {
 
   try {
     const res = await configApi.public()
-    branding.value = res.data
-    if (res.data.site_name) {
-      document.title = res.data.site_name
+    const data = res.data || res
+    branding.value = data
+    if (data.site_name) {
+      document.title = data.site_name
     }
   } catch (e) {
     console.error(e)
