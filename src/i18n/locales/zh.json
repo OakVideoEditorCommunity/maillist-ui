@@ -89,7 +89,9 @@
     "createdAt": "创建时间",
     "deleteConfirm": "确认删除该邮件列表？",
     "createSuccess": "创建成功",
-    "deleteSuccess": "删除成功"
+    "deleteSuccess": "删除成功",
+    "edit": "编辑列表",
+    "saveSuccess": "保存成功"
   },
   "domains": {
     "title": "域名管理",

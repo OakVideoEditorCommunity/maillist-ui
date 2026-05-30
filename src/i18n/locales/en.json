@@ -89,7 +89,9 @@
     "createdAt": "Created At",
     "deleteConfirm": "Delete this mailing list?",
     "createSuccess": "List created",
-    "deleteSuccess": "List deleted"
+    "deleteSuccess": "List deleted",
+    "edit": "Edit List",
+    "saveSuccess": "List saved"
   },
   "domains": {
     "title": "Domains",

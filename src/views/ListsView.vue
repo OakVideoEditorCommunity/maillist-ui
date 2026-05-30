@@ -2,7 +2,7 @@
   <div>
     <div style="display: flex; justify-content: space-between; align-items: center;">
       <h2>{{ $t('lists.title') }}</h2>
-      <el-button type="primary" @click="dialogVisible = true">{{ $t('lists.newList') }}</el-button>
+      <el-button type="primary" @click="openCreate">{{ $t('lists.newList') }}</el-button>
     </div>
 
     <el-table :data="lists" style="margin-top: 20px;" v-loading="loading">
@@ -19,28 +19,29 @@
           <el-tag :type="row.is_active ? 'success' : 'info'">{{ row.is_active ? $t('lists.active') : $t('lists.inactive') }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('app.actions')" width="200">
+      <el-table-column :label="$t('app.actions')" width="260">
         <template #default="{ row }">
+          <el-button link type="primary" @click="openEdit(row)">{{ $t('app.edit') }}</el-button>
           <el-button link type="primary" @click="$router.push(`/console/lists/${row.id}`)">{{ $t('app.detail') }}</el-button>
           <el-button link type="danger" @click="handleDelete(row.id)">{{ $t('app.delete') }}</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <el-dialog v-model="dialogVisible" :title="$t('lists.newList')" width="500px">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
       <el-form :model="form" label-width="100px">
-        <el-form-item :label="$t('lists.domain')">
+        <el-form-item :label="$t('lists.domain')" v-if="isCreate">
           <el-select v-model="form.domain_id" :placeholder="$t('lists.selectDomain')">
             <el-option v-for="d in domains" :key="d.id" :label="d.name" :value="d.id" />
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('lists.name')">
+        <el-form-item :label="$t('lists.name')" v-if="isCreate">
           <el-input v-model="form.name" />
         </el-form-item>
         <el-form-item :label="$t('lists.displayName')">
           <el-input v-model="form.display_name" />
         </el-form-item>
-        <el-form-item :label="$t('lists.emailPrefix')">
+        <el-form-item :label="$t('lists.emailPrefix')" v-if="isCreate">
           <el-input v-model="form.email_local_part" />
         </el-form-item>
         <el-form-item :label="$t('lists.description')">
@@ -61,14 +62,14 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">{{ $t('app.cancel') }}</el-button>
-        <el-button type="primary" @click="handleCreate">{{ $t('app.create') }}</el-button>
+        <el-button type="primary" @click="handleSave">{{ $t('app.save') }}</el-button>
       </template>
     </el-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { useI18n } from 'vue-i18n'
 import { listApi, domainApi } from '../api/index'
@@ -78,7 +79,11 @@ const lists = ref([])
 const domains = ref([])
 const loading = ref(false)
 const dialogVisible = ref(false)
+const isCreate = ref(true)
+const editingId = ref('')
 const form = ref({ domain_id: '', name: '', display_name: '', email_local_part: '', description: '', visibility: 'public', post_policy: 'subscriber_only' })
+
+const dialogTitle = computed(() => isCreate.value ? t('lists.newList') : t('lists.edit'))
 
 const fetch = async () => {
   loading.value = true
@@ -94,10 +99,37 @@ const fetch = async () => {
   }
 }
 
-const handleCreate = async () => {
+const openCreate = () => {
+  isCreate.value = true
+  editingId.value = ''
+  form.value = { domain_id: '', name: '', display_name: '', email_local_part: '', description: '', visibility: 'public', post_policy: 'subscriber_only' }
+  dialogVisible.value = true
+}
+
+const openEdit = (row) => {
+  isCreate.value = false
+  editingId.value = row.id
+  form.value = {
+    domain_id: row.domain_id || '',
+    name: row.name || '',
+    display_name: row.display_name || '',
+    email_local_part: row.email_local_part || '',
+    description: row.description || '',
+    visibility: row.visibility || 'public',
+    post_policy: row.post_policy || 'subscriber_only',
+  }
+  dialogVisible.value = true
+}
+
+const handleSave = async () => {
   try {
-    await listApi.create(form.value)
-    ElMessage.success(t('lists.createSuccess'))
+    if (isCreate.value) {
+      await listApi.create(form.value)
+      ElMessage.success(t('lists.createSuccess'))
+    } else {
+      await listApi.update(editingId.value, form.value)
+      ElMessage.success(t('lists.saveSuccess'))
+    }
     dialogVisible.value = false
     fetch()
   } catch (e) {
