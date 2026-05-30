@@ -192,8 +192,11 @@
     "title": "公开邮件列表",
     "browseLists": "浏览邮件列表",
     "noPublicLists": "暂无公开邮件列表",
-    "subscribeHint": "订阅方式：发送邮件至 {email}，主题填写 subscribe。",
-    "unsubscribeHint": "退订方式：发送邮件至 {email}，主题填写 unsubscribe。"
+    "subscribeHint": "订阅方式：发送邮件至列表地址，主题填写 subscribe。",
+    "unsubscribeHint": "退订方式：发送邮件至列表地址，主题填写 unsubscribe。",
+    "subscribeBtn": "订阅",
+    "subscribeSuccess": "订阅请求已发送，请查收邮件确认。",
+    "subscribePlaceholder": "请输入您的邮箱"
   },
   "cookie": {
     "title": "Cookie 声明",

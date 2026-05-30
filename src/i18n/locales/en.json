@@ -192,8 +192,11 @@
     "title": "Public Mailing Lists",
     "browseLists": "Browse Mailing Lists",
     "noPublicLists": "No public mailing lists available",
-    "subscribeHint": "To subscribe, send an email to {email} with subject 'subscribe'.",
-    "unsubscribeHint": "To unsubscribe, send an email to {email} with subject 'unsubscribe'."
+    "subscribeHint": "To subscribe, send an email to the list address with subject 'subscribe'.",
+    "unsubscribeHint": "To unsubscribe, send an email to the list address with subject 'unsubscribe'.",
+    "subscribeBtn": "Subscribe",
+    "subscribeSuccess": "Subscription request sent, please check your email for confirmation.",
+    "subscribePlaceholder": "Your email address"
   },
   "cookie": {
     "title": "Cookie Consent",

@@ -22,8 +22,8 @@
       >
         <template #title>
           <div style="line-height: 1.8;">
-            <p><strong>{{ $t('home.subscribeHint', { email: 'list-address@example.com' }) }}</strong></p>
-            <p><strong>{{ $t('home.unsubscribeHint', { email: 'list-address@example.com' }) }}</strong></p>
+            <p><strong>{{ $t('home.subscribeHint') }}</strong></p>
+            <p><strong>{{ $t('home.unsubscribeHint') }}</strong></p>
           </div>
         </template>
       </el-alert>
@@ -32,7 +32,7 @@
 
       <el-row :gutter="20" v-loading="loading">
         <el-col :span="8" v-for="list in lists" :key="list.id" style="margin-bottom: 20px;">
-          <el-card shadow="hover" class="list-card" @click="$router.push(`/lists/${list.id}`)">
+          <el-card shadow="hover" class="list-card">
             <template #header>
               <div class="list-card-header">
                 <span>{{ list.display_name || list.name }}</span>
@@ -43,10 +43,32 @@
             </template>
             <p v-if="list.description" class="list-description">{{ list.description }}</p>
             <p class="list-email">{{ list.email_local_part }}@...</p>
+            <div class="list-actions">
+              <el-button type="primary" size="small" @click.stop="openSubscribe(list)">
+                {{ $t('home.subscribeBtn') }}
+              </el-button>
+              <el-button size="small" @click.stop="$router.push(`/lists/${list.id}`)">
+                {{ $t('app.detail') }}
+              </el-button>
+            </div>
           </el-card>
         </el-col>
       </el-row>
     </div>
+
+    <el-dialog v-model="subscribeDialog.visible" :title="$t('home.subscribeBtn')" width="400px">
+      <p style="margin-bottom: 12px; color: #606266;">
+        {{ $t('home.subscribeHint') }}
+      </p>
+      <el-input
+        v-model="subscribeDialog.email"
+        :placeholder="$t('home.subscribePlaceholder')"
+      />
+      <template #footer>
+        <el-button @click="subscribeDialog.visible = false">{{ $t('app.cancel') }}</el-button>
+        <el-button type="primary" @click="handleSubscribe">{{ $t('home.subscribeBtn') }}</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -61,6 +83,7 @@ const { t } = useI18n()
 const lists = ref([])
 const loading = ref(false)
 const branding = ref({ site_name: '', primary_color: '#409EFF', logo_url: '' })
+const subscribeDialog = ref({ visible: false, list: null, email: '' })
 
 onMounted(async () => {
   try {
@@ -79,11 +102,33 @@ onMounted(async () => {
     const res = await listApi.list()
     lists.value = res.data.items || []
   } catch (e) {
-    ElMessage.error(e.message || t('app.loading'))
+    // Public page: silently ignore 401, only show error for other failures
+    if (e.message !== 'Unauthorized') {
+      ElMessage.error(e.message || t('app.loading'))
+    }
   } finally {
     loading.value = false
   }
 })
+
+const openSubscribe = (list) => {
+  subscribeDialog.value = { visible: true, list, email: '' }
+}
+
+const handleSubscribe = async () => {
+  const email = subscribeDialog.value.email.trim()
+  if (!email) {
+    ElMessage.warning(t('auth.email'))
+    return
+  }
+  try {
+    await listApi.subscribe(subscribeDialog.value.list.id, { email, name: '' })
+    ElMessage.success(t('home.subscribeSuccess'))
+    subscribeDialog.value.visible = false
+  } catch (e) {
+    ElMessage.error(e.message || 'Subscribe failed')
+  }
+}
 </script>
 
 <style scoped>
@@ -130,7 +175,6 @@ onMounted(async () => {
   font-size: 28px;
 }
 .list-card {
-  cursor: pointer;
   transition: transform 0.2s;
 }
 .list-card:hover {
@@ -151,6 +195,10 @@ onMounted(async () => {
 .list-email {
   color: #909399;
   font-size: 12px;
-  margin: 0;
+  margin: 0 0 12px;
+}
+.list-actions {
+  display: flex;
+  gap: 8px;
 }
 </style>

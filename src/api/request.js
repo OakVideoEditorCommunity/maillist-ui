@@ -20,7 +20,11 @@ request.interceptors.response.use(
     if (err.response?.status === 401) {
       localStorage.removeItem('access_token')
       localStorage.removeItem('refresh_token')
-      window.location.href = '/login'
+      // Only redirect to login if not on a public page
+      const publicPaths = ['/', '/login', '/register', '/setup']
+      if (!publicPaths.includes(window.location.pathname)) {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(new Error(msg))
   }
